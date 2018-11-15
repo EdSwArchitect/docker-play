@@ -1,0 +1,4 @@
+rootProject.name = 'docker-play'
+include 'docker-services'
+include 'simple-rest'
+

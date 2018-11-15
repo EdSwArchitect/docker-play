@@ -1,0 +1,32 @@
+version: '3'
+services:
+  web:
+    build: ./webbie
+    depends_on:
+      - consul
+      - nginx
+    environment:
+      - --spring.cloud.consul.host=consul
+      - --spring.cloud.consul.port=8500
+    ports:
+    - "7080:8080"
+    - "5000:8080"
+    volumes:
+    - .:/code
+  nginx:
+    image: "nginx:latest"
+    ports:
+      - "8080:80"
+      - "8443:80"
+  consul:
+    image: "progrium/consul"
+    ports:
+      - "8300:8300"
+      - "8301:8301"
+      - "8301:8301/udp"
+      - "8302:8302"
+      - "8302:8302/udp"
+      - "8400:8400"
+      - "8500:8500"
+    command: "-server -bootstrap-expect=1 "
+#     -config-dir=/etc/consul.d -bootstrap-expect=1 "
